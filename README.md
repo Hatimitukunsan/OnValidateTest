@@ -1,2 +1,29 @@
 # OnValidateTest
-OnValidateを使ってみる
+OnValidateおよび[ExecuteAlways]を使い、Playerの初期位置の変更をゲーム再生前にわかるようにするためのプログラムを作った。(Unityのバージョンは2022.3.51f1)
+
+# OnValidateおよび[ExecuteAlways]とは
+OnValidateや[ExecuteAlways]を使うことで、エディター再生よりも前にプログラムを実行することができる。
+
+OnValidate関数は、インスペクターの設定を変更したタイミングで呼び出される。
+
+[ExecuteAlways]属性については、[ExecuteAlways]属性をつけることで、Update関数をゲーム再生してないときに呼び出すことができる。
+
+# したこと
+Playerオブジェクトの初期位置を、PlayerInitialPosオブジェクトのtransform.positionの値にすることを想定する。
+
+通常のやり方では、PlayerInitialPosの位置を変更してもゲーム再生前には、Playerの位置が変わらないので、初期位置がどこかわかりにくい。そこで、OnValidateおよび[ExecuteAlways]を用いて、再生前にPlayerが初期位置に移動するようにした。
+
+
+https://github.com/user-attachments/assets/052e57dd-1338-4fbb-972b-79fdf7dc9cbb
+
+
+
+# PlayerController.cs
+OnValidate関数を用いた。
+PlayerInitialPosのtransformをPlayerControllerに割り当てる操作をインスペクターで行ったときのみ、Playerの位置が変わる。PlayerInitialPosの位置を変えるだけではPlayerの位置は変わらないので、使いにくい。
+
+# PlayerController2.cs
+[ExecuteAlways]属性をつけることで、シーンに変更があるたびに、Update関数が呼び出されるようにした。Update関数内でPlayerの位置変更を行った。ゲーム再生前でも、PlayerInitialPosの位置を変えるごとにUpdate関数が呼ばれるので、初期位置がわかりやすい。ただし、再生時にも、Updateが呼ばれて、PlayerがPlayerIntialPosの位置移動され続ける（つまりPlayerの位置を変えられない）
+
+# PlayerController3.cs
+PlayerController2.csと同様、[ExecuteAlways]属性をつけることで、シーンに変更があるたびに、Update関数が呼び出されるようにした。こちらでは、Update関数内で、Application.isPlayingを用いて、非再生時のみ処理を行うようにすることで、再生時にプレイヤーの位置を変えられるようにした。

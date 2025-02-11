@@ -9,6 +9,7 @@ public class PlayerController2 : MonoBehaviour
 
     private void OnValidate()
     {
+        Debug.Log("OnValidate");
         if (playerInitialPos != null)
         {
             transform.position = playerInitialPos.position;
@@ -21,5 +22,10 @@ public class PlayerController2 : MonoBehaviour
         {
             transform.position = playerInitialPos.position;
         }
+    }
+
+    private void Start()
+    {
+        Debug.Log("Start");
     }
 }

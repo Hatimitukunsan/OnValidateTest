@@ -2,11 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+[ExecuteAlways]
+public class PlayerController2 : MonoBehaviour
 {
     [SerializeField] private Transform playerInitialPos;
 
     private void OnValidate()
+    {
+        if (playerInitialPos != null)
+        {
+            transform.position = playerInitialPos.position;
+        }
+    }
+
+    private void Update()
     {
         if (playerInitialPos != null)
         {
